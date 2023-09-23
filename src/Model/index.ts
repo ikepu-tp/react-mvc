@@ -59,7 +59,7 @@ export default class Model {
 
 	protected beforeSend(): void {}
 
-	public async send(props: SendProps): Promise<void> {
+	public async send(props: SendProps): Promise<Response> {
 		this.beforeSend();
 
 		const _option: RequestInit = {
@@ -73,5 +73,6 @@ export default class Model {
 
 		const _response = await fetch(this.generateUrl(props.path, props.param || {}), _option);
 		if (!_response) throw new Error('Unexpected Error.');
+		return _response;
 	}
 }
