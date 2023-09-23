@@ -31,6 +31,8 @@ export default class Send<defaultResponse = ResponseResource> {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 	};
+	protected count: number = 0;
+	protected sendProps: SendProps | undefined;
 
 	constructor(url: Url | undefined = undefined) {
 		if (url) this.Url = url;
@@ -44,17 +46,41 @@ export default class Send<defaultResponse = ResponseResource> {
 		this.default_headers = { ...{}, ...headers };
 	}
 
+	protected countUp(): void {
+		++this.count;
+	}
+
+	protected countDown(): void {
+		--this.count;
+	}
+
+	protected resetCount(): void {
+		this.count = 0;
+	}
+
 	protected beforeSend(): void {
 		this.default_headers['X-XSRF-TOKEN'] = cookie('XSRF-TOKEN', '');
 		this.default_headers['X-NONCE'] = createKey();
 	}
 
 	protected afterSend<R = defaultResponse>(response: R | null, headers: Headers): void {
-		if (headers.get('Request-Nonce') !== this.default_headers['X-NONCE']) throw new Error('Unexpected response.');
+		if (headers.get('Request-Nonce') !== this.default_headers['X-NONCE']) this.unexpectedResponse();
 		if (response) return;
 	}
 
+	protected async unexpectedResponse(): Promise<void> {
+		if (this.count > 1) throw new Error('Unexpected response.');
+		if (this.sendProps) await this.send(this.sendProps);
+	}
+
+	protected setSendProps(props: SendProps): void {
+		this.sendProps = { ...{}, ...props };
+	}
+
 	public async send<R = defaultResponse>(props: SendProps): Promise<R | null> {
+		this.countUp();
+		this.setSendProps(props);
+
 		this.beforeSend();
 
 		const _option: RequestInit = {
@@ -71,6 +97,8 @@ export default class Send<defaultResponse = ResponseResource> {
 		const _response_header: Headers = _response.headers;
 
 		this.afterSend(_response_body, _response_header);
+
+		this.resetCount();
 
 		return _response_body;
 	}
