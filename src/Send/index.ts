@@ -103,23 +103,23 @@ export default class Send<defaultResponse = ResponseResource> {
 		return _response_body;
 	}
 
-	public async sendGet<R = defaultResponse>(props: SendGetProps): Promise<R | null> {
+	public async get<R = defaultResponse>(props: SendGetProps): Promise<R | null> {
 		return this.send<R>({ method: 'GET', ...props });
 	}
 
-	public async sendPost<R = defaultResponse>(props: SendPostProps): Promise<R | null> {
+	public async post<R = defaultResponse>(props: SendPostProps): Promise<R | null> {
 		return this.send<R>({ method: 'POST', ...props });
 	}
 
-	public async sendPut<R = defaultResponse>(props: SendPutProps): Promise<R | null> {
+	public async put<R = defaultResponse>(props: SendPutProps): Promise<R | null> {
 		return this.send<R>({ method: 'PUT', ...props });
 	}
 
-	public async sendPatch<R = defaultResponse>(props: SendPatchProps): Promise<R | null> {
+	public async patch<R = defaultResponse>(props: SendPatchProps): Promise<R | null> {
 		return this.send<R>({ method: 'PATCH', ...props });
 	}
 
-	public async sendDelete<R = defaultResponse>(props: SendDeleteProps): Promise<R | null> {
+	public async delete<R = defaultResponse>(props: SendDeleteProps): Promise<R | null> {
 		return this.send<R>({ method: 'DELETE', ...props });
 	}
 }
