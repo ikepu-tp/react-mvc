@@ -1,5 +1,5 @@
-import Url, { ParamType } from 'src/Url/index';
-import { cookie, createKey } from 'src/functions';
+import Url, { ParamType } from './../Url';
+import { cookie, createKey } from './../functions';
 
 export type SendGetProps = {
 	path: string;

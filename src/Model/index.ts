@@ -1,5 +1,5 @@
-import Send, { ResponseResource } from 'src/Send';
-import Url, { ParamType } from 'src/Url';
+import Send, { ResponseResource } from './../Send';
+import Url, { ParamType } from './../Url';
 
 export default class Model<defaultResponse = ResponseResource> {
 	protected url: Url = new Url();
