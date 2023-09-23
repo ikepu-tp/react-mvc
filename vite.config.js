@@ -7,6 +7,7 @@ export default defineConfig({
 			entry: {
 				"": resolve(__dirname, "src/index.ts"),
 				Model: resolve(__dirname, "src/Model/index.ts"),
+				functions: resolve(__dirname, "src/functions/index.ts"),
 			},
 			name: 'index',
 			fileName: (format, entryName) => {
