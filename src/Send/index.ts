@@ -25,7 +25,6 @@ export type ResponseResource = {
 };
 export default class Send<defaultResponse = ResponseResource> {
 	protected Url: Url = new Url();
-	protected path: string = '/path/{required_parameters}/{optional_paramters?}';
 	protected default_param: ParamType = {};
 	protected default_headers: HeadersInit & { [s: string]: string } = {
 		Accept: 'application/json',

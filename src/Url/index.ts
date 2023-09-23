@@ -3,7 +3,11 @@ export default class Url {
 	protected base_url: string = 'http://localhost/api';
 
 	constructor(base_url: string | undefined = undefined) {
-		if (base_url) this.base_url = base_url;
+		if (base_url) this.setBaseUrl(base_url);
+	}
+
+	public setBaseUrl(base_url: string) {
+		this.base_url = base_url;
 	}
 
 	public generateUrl(path: string, param: ParamType = {}): string {
