@@ -4,11 +4,19 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	build: {
 		lib: {
-			entry: [
-				resolve(__dirname, 'src/Model/index.ts'),
-			],
+			entry: {
+				Model: resolve(__dirname, "src/Model/index.ts"),
+			},
 			name: 'index',
-			fileName: 'index',
+			fileName: (format, entryName) => {
+				return `${entryName}/index.${format}.js`;
+			},
+			formats: ["cjs", "es"],
 		},
+		rollupOptions: {
+			output: {
+				sourcemap: true
+			}
+		}
 	},
 });
