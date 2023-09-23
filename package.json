@@ -1,7 +1,7 @@
 {
   "name": "@ikepu-tp/react-mvc",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "## Contributing",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
@@ -32,34 +32,33 @@
   ],
   "types": "./types/index.d.ts",
   "exports": {
-    ".":{
+    ".": {
       "require": "./dist/index.cjs.js",
       "import": "./dist/index.es.js",
-      "types":"./types/index.d.ts"
+      "types": "./types/index.d.ts"
     },
-    "./Model":{
+    "./Model": {
       "require": "./dist/Model/index.cjs.js",
       "import": "./dist/Model/index.es.js",
-      "types":"./types/Model/index.d.ts"
+      "types": "./types/Model/index.d.ts"
     },
-    "./Url":{
+    "./Url": {
       "require": "./dist/Url/index.cjs.js",
       "import": "./dist/Url/index.es.js",
-      "types":"./types/Url/index.d.ts"
+      "types": "./types/Url/index.d.ts"
     },
-    "./Send":{
+    "./Send": {
       "require": "./dist/Send/index.cjs.js",
       "import": "./dist/Send/index.es.js",
-      "types":"./types/Send/index.d.ts"
+      "types": "./types/Send/index.d.ts"
     },
-    "./functions":{
+    "./functions": {
       "require": "./dist/functions/index.cjs.js",
       "import": "./dist/functions/index.es.js",
-      "types":"./types/functions/index.d.ts"
+      "types": "./types/functions/index.d.ts"
     }
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
