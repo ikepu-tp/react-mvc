@@ -1,3 +1,5 @@
+import { cookie, createKey } from 'src/functions';
+
 export type ParamType = { [s: string]: string | number | boolean };
 export type SendProps = {
 	path: string;
@@ -6,16 +8,27 @@ export type SendProps = {
 	headers?: HeadersInit;
 	body?: BodyInit;
 };
-export default class Model {
+
+export type ResponseResource = {
+	status: {
+		result: boolean;
+		code: number;
+		nonce: string;
+	};
+};
+export default class Model<defaultResponse = ResponseResource> {
 	protected base_url: string = 'http://localhost/api';
 	protected path: string = '/path/{required_parameters}/{optional_paramters?}';
 	protected default_param: ParamType = {};
-	protected default_headers: HeadersInit = {
+	protected default_headers: HeadersInit & { [s: string]: string } = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 	};
 
-	constructor(default_param: ParamType | undefined = undefined, default_headers: HeadersInit | undefined = undefined) {
+	constructor(
+		default_param: ParamType | undefined = undefined,
+		default_headers: { [s: string]: string } | undefined = undefined
+	) {
 		if (default_param) this.default_param = { ...{}, ...default_param };
 		if (default_headers) this, (default_headers = { ...{}, ...default_headers });
 	}
@@ -60,10 +73,15 @@ export default class Model {
 		return queries.join('&');
 	}
 
-	protected beforeSend(): void {}
-	protected afterSend(): void {}
+	protected beforeSend(): void {
+		this.default_headers['X-XSRF-TOKEN'] = cookie('XSRF-TOKEN', '');
+		this.default_headers['X-NONCE'] = createKey();
+	}
+	protected afterSend<R = defaultResponse>(response: R | null, headers: Headers): void {
+		if (headers.get('Request-Nonce') !== this.default_headers['X-NONCE']) throw new Error('Unexpected response.');
+	}
 
-	public async send<R = Response>(props: SendProps): Promise<R | null> {
+	public async send<R = defaultResponse>(props: SendProps): Promise<R | null> {
 		this.beforeSend();
 
 		const _option: RequestInit = {
@@ -75,20 +93,12 @@ export default class Model {
 			},
 		};
 
-		const _response: R | null = await fetch(this.generateUrl(props.path, props.param || {}), _option)
-			.then((res: Response): Promise<R> | null => {
-				if (res.status === 204) return null;
-				return res.json();
-			})
-			.then((res: R | null): R | null => res)
-			.catch((error: string): null => {
-				throw new Error(error);
-				return null;
-			});
-		if (_response === null) return null;
+		const _response: Response = await fetch(this.generateUrl(props.path, props.param || {}), _option);
+		const _response_body: R | null = await _response.json();
+		const _response_header: Headers = _response.headers;
 
-		this.afterSend();
+		this.afterSend(_response_body, _response_header);
 
-		return _response;
+		return _response_body;
 	}
 }
