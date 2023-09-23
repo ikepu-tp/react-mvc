@@ -32,9 +32,15 @@
   ],
   "types": "./types/index.d.ts",
   "exports": {
+    ".":{
+      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.es.js",
+      "types":"./types/index.d.ts"
+    },
     "./Model":{
       "require": "./dist/Model/index.cjs.js",
-      "import": "./dist/Model/index.es.js"
+      "import": "./dist/Model/index.es.js",
+      "types":"./types/Model/index.d.ts"
     }
   },
   "dependencies": {
