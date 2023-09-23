@@ -61,8 +61,9 @@ export default class Model {
 	}
 
 	protected beforeSend(): void {}
+	protected afterSend(): void {}
 
-	public async send(props: SendProps): Promise<Response> {
+	public async send<R = Response>(props: SendProps): Promise<R | null> {
 		this.beforeSend();
 
 		const _option: RequestInit = {
@@ -74,8 +75,20 @@ export default class Model {
 			},
 		};
 
-		const _response = await fetch(this.generateUrl(props.path, props.param || {}), _option);
-		if (!_response) throw new Error('Unexpected Error.');
+		const _response: R | null = await fetch(this.generateUrl(props.path, props.param || {}), _option)
+			.then((res: Response): Promise<R> | null => {
+				if (res.status === 204) return null;
+				return res.json();
+			})
+			.then((res: R | null): R | null => res)
+			.catch((error: string): null => {
+				throw new Error(error);
+				return null;
+			});
+		if (_response === null) return null;
+
+		this.afterSend();
+
 		return _response;
 	}
 }
