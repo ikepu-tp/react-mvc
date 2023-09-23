@@ -1,11 +1,19 @@
 import { cookie, createKey } from 'src/functions';
 
 export type ParamType = { [s: string]: string | number | boolean };
-export type SendProps = {
+export type SendGetProps = {
 	path: string;
 	param?: ParamType;
-	method?: string;
 	headers?: HeadersInit;
+};
+export type SendPostProps = SendGetProps & {
+	body?: BodyInit;
+};
+export type SendPutProps = SendPostProps;
+export type SendPatchProps = SendPostProps;
+export type SendDeleteProps = SendPostProps;
+export type SendProps = SendGetProps & {
+	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: BodyInit;
 };
 
@@ -77,6 +85,7 @@ export default class Model<defaultResponse = ResponseResource> {
 		this.default_headers['X-XSRF-TOKEN'] = cookie('XSRF-TOKEN', '');
 		this.default_headers['X-NONCE'] = createKey();
 	}
+
 	protected afterSend<R = defaultResponse>(response: R | null, headers: Headers): void {
 		if (headers.get('Request-Nonce') !== this.default_headers['X-NONCE']) throw new Error('Unexpected response.');
 	}
@@ -100,5 +109,25 @@ export default class Model<defaultResponse = ResponseResource> {
 		this.afterSend(_response_body, _response_header);
 
 		return _response_body;
+	}
+
+	public async sendGet<R = defaultResponse>(props: SendGetProps): Promise<R | null> {
+		return this.send<R>({ method: 'GET', ...props });
+	}
+
+	public async sendPost<R = defaultResponse>(props: SendPostProps): Promise<R | null> {
+		return this.send<R>({ method: 'POST', ...props });
+	}
+
+	public async sendPut<R = defaultResponse>(props: SendPutProps): Promise<R | null> {
+		return this.send<R>({ method: 'PUT', ...props });
+	}
+
+	public async sendPatch<R = defaultResponse>(props: SendPatchProps): Promise<R | null> {
+		return this.send<R>({ method: 'PATCH', ...props });
+	}
+
+	public async sendDelete<R = defaultResponse>(props: SendDeleteProps): Promise<R | null> {
+		return this.send<R>({ method: 'DELETE', ...props });
 	}
 }
