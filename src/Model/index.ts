@@ -15,7 +15,10 @@ export default class Model {
 		'Content-Type': 'application/json',
 	};
 
-	constructor() {}
+	constructor(default_param: ParamType | undefined = undefined, default_headers: HeadersInit | undefined = undefined) {
+		if (default_param) this.default_param = { ...{}, ...default_param };
+		if (default_headers) this, (default_headers = { ...{}, ...default_headers });
+	}
 
 	public generateUrl(path: string, param: ParamType = {}): string {
 		param = { ...{}, ...param };
