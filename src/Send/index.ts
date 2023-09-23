@@ -33,6 +33,8 @@ export default class Send<defaultResponse = ResponseResource> {
 	};
 	protected count: number = 0;
 	protected sendProps: SendProps | undefined;
+	protected responseHeader: Headers | undefined;
+	protected responseBody: any;
 
 	constructor(url: Url | undefined = undefined) {
 		if (url) this.Url = url;
@@ -63,9 +65,13 @@ export default class Send<defaultResponse = ResponseResource> {
 		this.default_headers['X-NONCE'] = createKey();
 	}
 
-	protected afterSend<R = defaultResponse>(response: R | null, headers: Headers): void {
-		if (headers.get('Request-Nonce') !== this.default_headers['X-NONCE']) this.unexpectedResponse();
-		if (response) return;
+	protected afterSend(): void {
+		if (!this.checkNonce()) this.unexpectedResponse();
+	}
+
+	protected checkNonce(): boolean {
+		if (!this.responseHeader) return false;
+		return this.responseHeader.get('Request-Nonce') !== this.default_headers['X-NONCE'];
 	}
 
 	protected async unexpectedResponse(): Promise<void> {
@@ -94,9 +100,11 @@ export default class Send<defaultResponse = ResponseResource> {
 
 		const _response: Response = await fetch(this.Url.generateUrl(props.path, props.param || {}), _option);
 		const _response_body: R | null = await _response.json();
-		const _response_header: Headers = _response.headers;
 
-		this.afterSend(_response_body, _response_header);
+		this.responseHeader = _response.headers;
+		this.responseBody = _response_body;
+
+		this.afterSend();
 
 		this.resetCount();
 
