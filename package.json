@@ -1,8 +1,8 @@
 {
   "name": "@ikepu-tp/react-mvc",
   "type": "module",
-  "version": "0.2.3",
-  "description": "## Contributing",
+  "version": "0.2.2",
+  "description": "React MVC is a library for supporting MVC-like implementations in JavaScript projects.",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
   "scripts": {
