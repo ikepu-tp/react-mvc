@@ -7,6 +7,8 @@ export default defineConfig({
 			entry: {
 				"": resolve(__dirname, "src/index.ts"),
 				Model: resolve(__dirname, "src/Model/index.ts"),
+				Url: resolve(__dirname, "src/Url/index.ts"),
+				Send: resolve(__dirname, "src/Send/index.ts"),
 				functions: resolve(__dirname, "src/functions/index.ts"),
 			},
 			name: 'index',
@@ -21,4 +23,9 @@ export default defineConfig({
 			}
 		}
 	},
+	resolve: {
+		alias: {
+			"src": "/src"
+		}
+	}
 });
