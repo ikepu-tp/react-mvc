@@ -45,10 +45,3 @@ export function createKey(): string {
 export function isString(value: any): boolean {
 	return typeof value === 'string' || value instanceof String;
 }
-
-export default {
-	cookies,
-	cookie,
-	createKey,
-	isString,
-};

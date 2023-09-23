@@ -3,14 +3,14 @@
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"baseUrl": ".",
+		"noImplicitAny": true,
 		"target": "es6",
-		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
+		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,
 		"module": "esnext",
@@ -19,9 +19,11 @@
 		"isolatedModules": true,
 		"emitDeclarationOnly": true,
 		"declaration": true,
-		"declarationDir": "./types"
+		"declarationDir": "./types",
+		"outDir": "./dist",
+		"rootDir": "./src"
 	},
-	"include": [],
+	"include": ["src"],
 	"exclude": [],
 	"references": []
 }
