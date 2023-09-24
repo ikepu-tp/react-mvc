@@ -6,22 +6,19 @@ export default defineConfig({
 		lib: {
 			entry: {
 				"": resolve(__dirname, "src/index.ts"),
-				Model: resolve(__dirname, "src/Model/index.ts"),
+				functions: resolve(__dirname, "src/functions/index.ts"),
 				Url: resolve(__dirname, "src/Url/index.ts"),
 				Send: resolve(__dirname, "src/Send/index.ts"),
-				functions: resolve(__dirname, "src/functions/index.ts"),
+				Model: resolve(__dirname, "src/Model/index.ts"),
 			},
-			name: 'index',
+			name: '@ikepu-tp/react-mvc',
 			fileName: (format, entryName) => {
-				return `${entryName ? `${entryName}/` : ""}index.${format}.js`;
+				return `${format}/${entryName ? `${entryName}/` : ""}index.js`;
 			},
-			formats: ["cjs", "es"],
+			formats: ["cjs", "esm"],
 		},
-		rollupOptions: {
-			output: {
-				sourcemap: true
-			}
-		},
-		minify: false
+		rollupOptions: {},
+		minify: false,
+		outDir: "./dist"
 	},
 });

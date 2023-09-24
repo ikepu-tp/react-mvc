@@ -1,10 +1,10 @@
 {
   "name": "@ikepu-tp/react-mvc",
   "type": "module",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "React MVC is a library for supporting MVC-like implementations in JavaScript projects.",
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.es.js",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier -w \"./src/**/*.{js,css,ts}\"",
@@ -27,34 +27,35 @@
   },
   "homepage": "https://github.com/ikepu-tp/react-mvc#readme",
   "files": [
-    "dist"
+    "esm",
+    "cjs"
   ],
-  "types": "./dist/index.d.ts",
+  "types": "./esm/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs.js",
-      "import": "./dist/index.es.js",
-      "types": "./dist/index.d.ts"
+      "require": "./cjs/index.js",
+      "import": "./esm/index.js",
+      "types": "./esm/index.d.ts"
     },
     "./Model": {
-      "require": "./dist/Model/index.cjs.js",
-      "import": "./dist/Model/index.es.js",
-      "types": "./dist/Model/index.d.ts"
+      "require": "./cjs/Model/index.js",
+      "import": "./esm/Model/index.js",
+      "types": "./esm/Model/index.d.ts"
     },
     "./Url": {
-      "require": "./dist/Url/index.cjs.js",
-      "import": "./dist/Url/index.es.js",
-      "types": "./dist/Url/index.d.ts"
+      "require": "./cjs/Url/index.js",
+      "import": "./esm/Url/index.js",
+      "types": "./esm/Url/index.d.ts"
     },
     "./Send": {
-      "require": "./dist/Send/index.cjs.js",
-      "import": "./dist/Send/index.es.js",
-      "types": "./dist/Send/index.d.ts"
+      "require": "./cjs/Send/index.js",
+      "import": "./esm/Send/index.js",
+      "types": "./esm/Send/index.d.ts"
     },
     "./functions": {
-      "require": "./dist/functions/index.cjs.js",
-      "import": "./dist/functions/index.es.js",
-      "types": "./dist/functions/index.d.ts"
+      "require": "./cjs/functions/index.js",
+      "import": "./esm/functions/index.js",
+      "types": "./esm/functions/index.d.ts"
     }
   },
   "dependencies": {},
