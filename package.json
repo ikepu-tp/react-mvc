@@ -27,35 +27,34 @@
   },
   "homepage": "https://github.com/ikepu-tp/react-mvc#readme",
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
-  "types": "./types/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs.js",
       "import": "./dist/index.es.js",
-      "types": "./types/index.d.ts"
+      "types": "./dist/index.d.ts"
     },
     "./Model": {
       "require": "./dist/Model/index.cjs.js",
       "import": "./dist/Model/index.es.js",
-      "types": "./types/Model/index.d.ts"
+      "types": "./dist/Model/index.d.ts"
     },
     "./Url": {
       "require": "./dist/Url/index.cjs.js",
       "import": "./dist/Url/index.es.js",
-      "types": "./types/Url/index.d.ts"
+      "types": "./dist/Url/index.d.ts"
     },
     "./Send": {
       "require": "./dist/Send/index.cjs.js",
       "import": "./dist/Send/index.es.js",
-      "types": "./types/Send/index.d.ts"
+      "types": "./dist/Send/index.d.ts"
     },
     "./functions": {
       "require": "./dist/functions/index.cjs.js",
       "import": "./dist/functions/index.es.js",
-      "types": "./types/functions/index.d.ts"
+      "types": "./dist/functions/index.d.ts"
     }
   },
   "dependencies": {},
