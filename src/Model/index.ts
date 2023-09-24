@@ -1,7 +1,35 @@
-import Send, { ResponseResource } from './../Send';
+import Send, { ErrorResource, SuccessOrFailedResponseResource } from './../Send';
 import Url, { ParamType } from './../Url';
 
-export default class Model<defaultResponse = ResponseResource> {
+type PathParametersType = {
+	optional_parameters?: string;
+};
+type RequiredParametersType = {
+	required_paramters: string;
+};
+export type IndexParamProps = ParamType & {
+	page?: number;
+	per?: number;
+};
+export type ShowParamProps = ParamType & {};
+export type StoreParamProps = ParamType & {};
+export type UpdateParamProps = ParamType & {};
+export type DeleteParamProps = ParamType & {};
+export default class Model<
+	defaultResponse = SuccessOrFailedResponseResource,
+	PPT = PathParametersType,
+	Resource = any,
+	StoreResource = any,
+	UpdateResource = any,
+	IPP = IndexParamProps,
+	SPP = ShowParamProps,
+	StPP = StoreParamProps,
+	UPP = UpdateParamProps,
+	DPP = DeleteParamProps,
+	RequiredParameters = RequiredParametersType,
+	DeleteResource = any,
+	errorResource = ErrorResource,
+> {
 	protected url: Url = new Url();
 	protected send: Send = new Send<defaultResponse>();
 	protected base_url: string = '/api';
@@ -14,5 +42,72 @@ export default class Model<defaultResponse = ResponseResource> {
 		if (default_param) this.send.setDefaultParam(default_param);
 		if (default_headers) this.send.setDefaultHeaders(default_headers);
 		this.url.setBaseUrl(this.base_url);
+	}
+
+	public convertNullResponse(): void {
+		throw new Error('Unexpected response.');
+	}
+
+	public convertResponse<P = Resource | errorResource>(response: defaultResponse | null): P {
+		if (response === null) {
+			this.convertNullResponse();
+			return response as P;
+		}
+		if (!response) throw new Error('Unexpected response.');
+		const _response: defaultResponse & { payloads?: any; error?: any } = response;
+		if (_response.payloads) return _response.payloads;
+		if (_response.error) return _response.error;
+		throw new Error('Not found response.');
+	}
+
+	public async index<P = Resource | errorResource>(
+		params: (ParamType & PPT & RequiredParameters & IPP) | undefined = undefined
+	): Promise<P> {
+		const _response: defaultResponse | null = await this.send.get<defaultResponse>({
+			path: this.url.generateUrl(this.path, params),
+		});
+		return this.convertResponse<P>(_response);
+	}
+
+	public async show<P = Resource | errorResource>(
+		params: (ParamType & PPT & RequiredParameters & SPP) | undefined = undefined
+	): Promise<P> {
+		const _response: defaultResponse | null = await this.send.get<defaultResponse>({
+			path: this.url.generateUrl(this.path, params),
+		});
+		return this.convertResponse<P>(_response);
+	}
+
+	public async store<P = Resource | errorResource>(
+		resource: StoreResource,
+		params: (ParamType & PPT & RequiredParameters & StPP) | undefined = undefined
+	): Promise<P> {
+		const _response: defaultResponse | null = await this.send.post<defaultResponse>({
+			path: this.url.generateUrl(this.path, params),
+			body: JSON.stringify(resource),
+		});
+		return this.convertResponse<P>(_response);
+	}
+
+	public async update<P = Resource | errorResource>(
+		resource: UpdateResource,
+		params: (ParamType & PPT & RequiredParameters & UPP) | undefined = undefined
+	): Promise<P> {
+		const _response: defaultResponse | null = await this.send.put<defaultResponse>({
+			path: this.url.generateUrl(this.path, params),
+			body: JSON.stringify(resource),
+		});
+		return this.convertResponse<P>(_response);
+	}
+
+	public async delete<P = Resource | errorResource>(
+		resource: DeleteResource,
+		params: (ParamType & PPT & RequiredParameters & DPP) | undefined = undefined
+	): Promise<P> {
+		const _response: defaultResponse | null = await this.send.delete<defaultResponse>({
+			path: this.url.generateUrl(this.path, params),
+			body: JSON.stringify(resource),
+		});
+		return this.convertResponse<P>(_response);
 	}
 }

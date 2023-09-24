@@ -10,8 +10,8 @@ export default class Url {
 		this.base_url = base_url;
 	}
 
-	public generateUrl(path: string, param: ParamType = {}): string {
-		param = { ...{}, ...param };
+	public generateUrl(path: string, param: ParamType | undefined = {}): string {
+		param = { ...{}, ...(param || {}) };
 
 		//converting required parameters in path
 		const url_params: string[] | null = path.match(/{[a-zA-Z]+}/gi);
