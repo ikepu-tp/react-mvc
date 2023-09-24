@@ -11,14 +11,29 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v3
         with:
           ref: main
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
+
+      - name: set version
+        run: node -p -e '`RELEASED_VERSION=v${require("./package.json").version}`' >> $GITHUB_ENV
+
+      - name: Create Release
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d "{ \"tag_name\": \"${{ env.RELEASED_VERSION }}\", \"name\": \"${{ env.RELEASED_VERSION }}\", \"generate_release_notes\": true }" \
+            https://api.github.com/repos/ikepu-tp/react-mvc/releases
 
       - name: install
         run: yarn install
