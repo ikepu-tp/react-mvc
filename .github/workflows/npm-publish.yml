@@ -36,12 +36,12 @@ jobs:
 
       - name: create release branch
         run: |
+          echo "${GITHUB_REPOSITORY}";
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git branch release-${{ env.RELEASED_VERSION }}
           git push -u origin release-${{ env.RELEASED_VERSION }}
           git branch -a
-          echo "${GITHUB_REPOSITORY}";
 
       - name: create release
         run: |
