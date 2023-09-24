@@ -34,7 +34,15 @@ jobs:
       - name: set version
         run: node -p -e '`RELEASED_VERSION=v${require("./package.json").version}`' >> $GITHUB_ENV
 
-      - name: Create Release
+      - name: create release branch
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git branch release-${{ env.RELEASED_VERSION }}
+          git push -u origin release-${{ env.RELEASED_VERSION }}
+          git branch -a
+
+      - name: create Release
         run: |
           curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
