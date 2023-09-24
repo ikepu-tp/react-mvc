@@ -1,7 +1,7 @@
 {
   "name": "@ikepu-tp/react-mvc",
   "type": "module",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "React MVC is a library for supporting MVC-like implementations in JavaScript projects.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -37,24 +37,24 @@
       "types": "./dist/esm/index.d.ts"
     },
     "./Model": {
-      "require": "./dist/cjs/Model/index.js",
-      "import": "./dist/esm/Model/index.js",
-      "types": "./dist/esm/Model/index.d.ts"
+      "require": "./dist/cjs/Model.js",
+      "import": "./dist/esm/Model.js",
+      "types": "./dist/esm/Model.d.ts"
     },
     "./Url": {
-      "require": "./dist/cjs/Url/index.js",
-      "import": "./dist/esm/Url/index.js",
-      "types": "./dist/esm/Url/index.d.ts"
+      "require": "./dist/cjs/Url.js",
+      "import": "./dist/esm/Url.js",
+      "types": "./dist/esm/Url.d.ts"
     },
     "./Send": {
-      "require": "./dist/cjs/Send/index.js",
-      "import": "./dist/esm/Send/index.js",
-      "types": "./dist/esm/Send/index.d.ts"
+      "require": "./dist/cjs/Send.js",
+      "import": "./dist/esm/Send.js",
+      "types": "./dist/esm/Send.d.ts"
     },
-    "./functions": {
-      "require": "./dist/cjs/functions/index.js",
-      "import": "./dist/esm/functions/index.js",
-      "types": "./dist/esm/functions/index.d.ts"
+    "./Function": {
+      "require": "./dist/cjs/Function.js",
+      "import": "./dist/esm/Function.js",
+      "types": "./dist/esm/Function.d.ts"
     }
   },
   "publishConfig": {
