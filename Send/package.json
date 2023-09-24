@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/Send",
+  "private":true,
+  "main": "./../dist/cjs/Send.js",
+  "module": "./../dist/esm/Send.js",
+  "types": "./../dist/esm/Send.d.ts"
+}

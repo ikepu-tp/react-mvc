@@ -1,11 +1,4 @@
-import Model from './Model';
-import Send from './Send';
-import Url from './Url';
-import Function from './Function';
-
-export default {
-	Model,
-	Send,
-	Url,
-	Function,
-};
+export { default as Model } from './Model';
+export { default as Send } from './Send';
+export { default as Url } from './Url';
+export { default as Function } from './Function';

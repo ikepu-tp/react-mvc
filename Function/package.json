@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/Function",
+  "private":true,
+  "main": "./../dist/cjs/Function.js",
+  "module": "./../dist/esm/Function.js",
+  "types": "./../dist/esm/Function.d.ts"
+}

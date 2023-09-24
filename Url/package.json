@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/Url",
+  "private":true,
+  "main": "./../dist/cjs/Url.js",
+  "module": "./../dist/esm/Url.js",
+  "types": "./../dist/esm/Url.d.ts"
+}
