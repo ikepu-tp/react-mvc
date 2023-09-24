@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/Model",
+  "private":true,
+  "main": "./dist/cjs/Model.js",
+  "module": "./dist/esm/Model.js",
+  "types": "./dsit/esm/Model.d.ts"
+}
