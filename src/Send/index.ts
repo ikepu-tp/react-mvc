@@ -16,14 +16,31 @@ export type SendProps = SendGetProps & {
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: BodyInit;
 };
-export type ResponseResource = {
-	status: {
-		result: boolean;
-		code: number;
-		nonce: string;
-	};
+export type ResponseStatusResource = {
+	result: boolean;
+	code: number;
+	nonce: string;
 };
-export default class Send<defaultResponse = ResponseResource> {
+export type ResponseResource = {
+	status: ResponseStatusResource;
+};
+export type SuccessResponseResource<T = any> = ResponseResource & {
+	payloads: T;
+};
+export type ErrorResource = {
+	abstract: string;
+	title: string;
+	code: number;
+	messages: (string | object)[];
+};
+export type FailedResponseResource = ResponseResource & {
+	error: ErrorResource;
+};
+export type SuccessOrFailedResponseResource<T = any> = ResponseResource & {
+	payloads?: T;
+	error?: ErrorResource;
+};
+export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 	protected Url: Url = new Url();
 	protected default_param: ParamType = {};
 	protected default_headers: HeadersInit & { [s: string]: string } = {
