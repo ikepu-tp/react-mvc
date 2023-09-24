@@ -1,11 +1,11 @@
 import Model from './Model';
 import Send from './Send';
 import Url from './Url';
-import * as functions from './functions';
+import Function from './Function';
 
 export default {
-	Model: Model,
-	Url: Url,
-	Send: Send,
-	functions: functions,
+	Model,
+	Send,
+	Url,
+	Function,
 };

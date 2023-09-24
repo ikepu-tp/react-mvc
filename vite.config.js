@@ -5,15 +5,15 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: {
-				"": resolve(__dirname, "src/index.ts"),
-				functions: resolve(__dirname, "src/functions/index.ts"),
-				Url: resolve(__dirname, "src/Url/index.ts"),
-				Send: resolve(__dirname, "src/Send/index.ts"),
-				Model: resolve(__dirname, "src/Model/index.ts"),
+				Function: resolve(__dirname, "src/Function.ts"),
+				Url: resolve(__dirname, "src/Url.ts"),
+				Send: resolve(__dirname, "src/Send.ts"),
+				Model: resolve(__dirname, "src/Model.ts"),
+				"index": resolve(__dirname, "src/index.ts"),
 			},
 			name: '@ikepu-tp/react-mvc',
 			fileName: (format, entryName) => {
-				return `${format}/${entryName ? `${entryName}/` : ""}index.js`;
+				return `${format}/${entryName}.js`;
 			},
 			formats: ["cjs", "esm"],
 		},

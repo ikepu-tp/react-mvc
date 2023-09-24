@@ -1,5 +1,5 @@
-import Send, { ErrorResource, SuccessOrFailedResponseResource } from './../Send';
-import Url, { ParamType } from './../Url';
+import Send, { ErrorResource, SuccessOrFailedResponseResource } from './Send';
+import Url, { ParamType } from './Url';
 
 type PathParametersType = {
 	optional_parameters?: string;

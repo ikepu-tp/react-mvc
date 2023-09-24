@@ -1,5 +1,5 @@
-import Url, { ParamType } from './../Url';
-import { cookie, createKey } from './../functions';
+import Function from './Function';
+import Url, { ParamType } from './Url';
 
 export type SendGetProps = {
 	path: string;
@@ -77,8 +77,8 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 	}
 
 	protected beforeSend(): void {
-		this.default_headers['X-XSRF-TOKEN'] = cookie('XSRF-TOKEN', '');
-		this.default_headers['X-NONCE'] = createKey();
+		this.default_headers['X-XSRF-TOKEN'] = Function.cookie('XSRF-TOKEN', '');
+		this.default_headers['X-NONCE'] = Function.createKey();
 	}
 
 	protected afterSend(): void {
