@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/Model",
+  "private": true,
+  "main": "../dist/cjs/Model/index.js",
+  "module": "../dist/esm/Model/index.js",
+  "types": "../dist/esm/Model/index.d.ts"
+}
