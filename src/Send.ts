@@ -83,6 +83,7 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 
 	protected afterSend(): void {
 		if (!this.checkNonce()) this.unexpectedResponse();
+		this.resetCount();
 	}
 
 	protected checkNonce(): boolean {
@@ -129,8 +130,6 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		this.responseBody = _response_body;
 
 		this.afterSend();
-
-		this.resetCount();
 
 		return _response_body;
 	}
