@@ -82,6 +82,10 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 	}
 
 	protected afterSend(): void {
+		if (this.responseBody === null) {
+			this.resetCount();
+			return;
+		}
 		if (!this.checkNonce()) this.unexpectedResponse();
 		this.resetCount();
 	}
@@ -95,9 +99,7 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 	protected async unexpectedResponse(): Promise<void> {
 		if (this.count > 1) throw new Error('Unexpected response.');
 		if (!this.sendProps) throw new Error('Unexpected response and failed');
-		console.log(this.count);
-		this.countUp();
-		//await this.send(this.sendProps);
+		await this.send(this.sendProps);
 	}
 
 	protected setSendProps<Param = ParamType>(props: SendProps<Param>): void {
