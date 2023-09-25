@@ -1,18 +1,18 @@
 import Function from './Function';
 import Url, { ParamType } from './Url';
 
-export type SendGetProps = {
+export type SendGetProps<Param = ParamType> = {
 	path: string;
-	param?: ParamType;
+	param?: Param;
 	headers?: HeadersInit;
 };
-export type SendPostProps = SendGetProps & {
+export type SendPostProps<Param = ParamType> = SendGetProps<Param> & {
 	body?: BodyInit;
 };
-export type SendPutProps = SendPostProps;
-export type SendPatchProps = SendPostProps;
-export type SendDeleteProps = SendPostProps;
-export type SendProps = SendGetProps & {
+export type SendPutProps<Param = ParamType> = SendPostProps<Param>;
+export type SendPatchProps<Param = ParamType> = SendPostProps<Param>;
+export type SendDeleteProps<Param = ParamType> = SendPostProps<Param>;
+export type SendProps<Param = ParamType> = SendGetProps<Param> & {
 	method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 	body?: BodyInit;
 };
@@ -87,7 +87,7 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 
 	protected checkNonce(): boolean {
 		if (!this.responseHeader) return false;
-		return this.responseHeader.get('Request-Nonce') !== this.default_headers['X-NONCE'];
+		return this.responseHeader.get('Request-Nonce') === this.default_headers['X-NONCE'];
 	}
 
 	protected async unexpectedResponse(): Promise<void> {
@@ -95,13 +95,13 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		if (this.sendProps) await this.send(this.sendProps);
 	}
 
-	protected setSendProps(props: SendProps): void {
-		this.sendProps = { ...{}, ...props };
+	protected setSendProps<Param = ParamType>(props: SendProps<Param>): void {
+		this.sendProps = { ...{}, ...props } as SendProps;
 	}
 
-	public async send<R = defaultResponse>(props: SendProps): Promise<R | null> {
+	public async send<R = defaultResponse, Param = ParamType>(props: SendProps<Param>): Promise<R | null> {
 		this.countUp();
-		this.setSendProps(props);
+		this.setSendProps<Param>(props);
 
 		this.beforeSend();
 
@@ -115,9 +115,17 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		};
 
 		const _response: Response = await fetch(this.Url.generateUrl(props.path, props.param || {}), _option);
-		const _response_body: R | null = await _response.json();
-
 		this.responseHeader = _response.headers;
+
+		if (_response.status === 204) {
+			this.responseBody = null;
+			this.afterSend();
+			this.resetCount();
+			return null;
+		}
+
+		const _response_body: R = await _response.json();
+
 		this.responseBody = _response_body;
 
 		this.afterSend();
@@ -127,23 +135,23 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		return _response_body;
 	}
 
-	public async get<R = defaultResponse>(props: SendGetProps): Promise<R | null> {
-		return this.send<R>({ method: 'GET', ...props });
+	public async get<R = defaultResponse, Param = ParamType>(props: SendGetProps<Param>): Promise<R | null> {
+		return this.send<R, Param>({ method: 'GET', ...props });
 	}
 
-	public async post<R = defaultResponse>(props: SendPostProps): Promise<R | null> {
-		return this.send<R>({ method: 'POST', ...props });
+	public async post<R = defaultResponse, Param = ParamType>(props: SendPostProps<Param>): Promise<R | null> {
+		return this.send<R, Param>({ method: 'POST', ...props });
 	}
 
-	public async put<R = defaultResponse>(props: SendPutProps): Promise<R | null> {
-		return this.send<R>({ method: 'PUT', ...props });
+	public async put<R = defaultResponse, Param = ParamType>(props: SendPutProps<Param>): Promise<R | null> {
+		return this.send<R, Param>({ method: 'PUT', ...props });
 	}
 
-	public async patch<R = defaultResponse>(props: SendPatchProps): Promise<R | null> {
-		return this.send<R>({ method: 'PATCH', ...props });
+	public async patch<R = defaultResponse, Param = ParamType>(props: SendPatchProps<Param>): Promise<R | null> {
+		return this.send<R, Param>({ method: 'PATCH', ...props });
 	}
 
-	public async delete<R = defaultResponse>(props: SendDeleteProps): Promise<R | null> {
-		return this.send<R>({ method: 'DELETE', ...props });
+	public async delete<R = defaultResponse, Param = ParamType>(props: SendDeleteProps<Param>): Promise<R | null> {
+		return this.send<R, Param>({ method: 'DELETE', ...props });
 	}
 }

@@ -63,8 +63,10 @@ export default class Model<
 	public async index<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & IPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
-		const _response: defaultResponse | null = await this.send.get<defaultResponse>({
+		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
+			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.url.generateUrl<Param>(this.path, params),
+			param: params,
 		});
 		return this.convertResponse<P>(_response);
 	}
@@ -72,8 +74,10 @@ export default class Model<
 	public async show<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & SPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
-		const _response: defaultResponse | null = await this.send.get<defaultResponse>({
+		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
+			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.url.generateUrl<Param>(this.path, params),
+			param: params,
 		});
 		return this.convertResponse<P>(_response);
 	}
@@ -82,8 +86,10 @@ export default class Model<
 		resource: StoreResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
-		const _response: defaultResponse | null = await this.send.post<defaultResponse>({
+		const _response: defaultResponse | null = await this.send.post<defaultResponse, Param>({
+			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.url.generateUrl<Param>(this.path, params),
+			param: params,
 			body: JSON.stringify(resource),
 		});
 		return this.convertResponse<P>(_response);
@@ -93,8 +99,10 @@ export default class Model<
 		resource: UpdateResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
-		const _response: defaultResponse | null = await this.send.put<defaultResponse>({
+		const _response: defaultResponse | null = await this.send.put<defaultResponse, Param>({
+			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.url.generateUrl<Param>(this.path, params),
+			param: params,
 			body: JSON.stringify(resource),
 		});
 		return this.convertResponse<P>(_response);
@@ -104,8 +112,10 @@ export default class Model<
 		resource: DeleteResource | undefined = undefined,
 		params: Param | undefined = undefined
 	): Promise<P> {
-		const _response: defaultResponse | null = await this.send.delete<defaultResponse>({
+		const _response: defaultResponse | null = await this.send.delete<defaultResponse, Param>({
+			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.url.generateUrl<Param>(this.path, params),
+			param: params,
 			body: JSON.stringify(resource),
 		});
 		return this.convertResponse<P>(_response);

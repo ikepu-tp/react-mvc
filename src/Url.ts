@@ -1,6 +1,6 @@
 export type ParamType = { [s: string | number | symbol]: any };
 export default class Url {
-	protected base_url: string = 'http://localhost/api';
+	protected base_url: string = '/api';
 
 	constructor(base_url: string | undefined = undefined) {
 		if (base_url) this.setBaseUrl(base_url);
