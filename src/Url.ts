@@ -1,4 +1,4 @@
-export type ParamType = { [s: string]: string | number | boolean };
+export type ParamType = { [s: string | number | symbol]: any };
 export default class Url {
 	protected base_url: string = 'http://localhost/api';
 
@@ -10,8 +10,8 @@ export default class Url {
 		this.base_url = base_url;
 	}
 
-	public generateUrl(path: string, param: ParamType | undefined = {}): string {
-		param = { ...{}, ...(param || {}) };
+	public generateUrl<Param = ParamType>(path: string, params: Param | undefined = undefined): string {
+		let param: ParamType = { ...{}, ...(params || {}) };
 
 		//converting required parameters in path
 		const url_params: string[] | null = path.match(/{[a-zA-Z]+}/gi);

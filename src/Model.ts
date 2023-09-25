@@ -60,52 +60,52 @@ export default class Model<
 		throw new Error('Not found response.');
 	}
 
-	public async index<P = Resource | errorResource>(
-		params: (ParamType & PPT & RequiredParameters & IPP) | undefined = undefined
+	public async index<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & IPP)>(
+		params: Param | undefined = undefined
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.get<defaultResponse>({
-			path: this.url.generateUrl(this.path, params),
+			path: this.url.generateUrl<Param>(this.path, params),
 		});
 		return this.convertResponse<P>(_response);
 	}
 
-	public async show<P = Resource | errorResource>(
-		params: (ParamType & PPT & RequiredParameters & SPP) | undefined = undefined
+	public async show<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & SPP)>(
+		params: Param | undefined = undefined
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.get<defaultResponse>({
-			path: this.url.generateUrl(this.path, params),
+			path: this.url.generateUrl<Param>(this.path, params),
 		});
 		return this.convertResponse<P>(_response);
 	}
 
-	public async store<P = Resource | errorResource>(
+	public async store<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & StPP)>(
 		resource: StoreResource,
-		params: (ParamType & PPT & RequiredParameters & StPP) | undefined = undefined
+		params: Param | undefined = undefined
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.post<defaultResponse>({
-			path: this.url.generateUrl(this.path, params),
+			path: this.url.generateUrl<Param>(this.path, params),
 			body: JSON.stringify(resource),
 		});
 		return this.convertResponse<P>(_response);
 	}
 
-	public async update<P = Resource | errorResource>(
+	public async update<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & UPP)>(
 		resource: UpdateResource,
-		params: (ParamType & PPT & RequiredParameters & UPP) | undefined = undefined
+		params: Param | undefined = undefined
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.put<defaultResponse>({
-			path: this.url.generateUrl(this.path, params),
+			path: this.url.generateUrl<Param>(this.path, params),
 			body: JSON.stringify(resource),
 		});
 		return this.convertResponse<P>(_response);
 	}
 
-	public async delete<P = Resource | errorResource>(
+	public async destroy<P = Resource | errorResource, Param = ParamType & PPT & RequiredParameters & DPP>(
 		resource: DeleteResource,
-		params: (ParamType & PPT & RequiredParameters & DPP) | undefined = undefined
+		params: Param | undefined = undefined
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.delete<defaultResponse>({
-			path: this.url.generateUrl(this.path, params),
+			path: this.url.generateUrl<Param>(this.path, params),
 			body: JSON.stringify(resource),
 		});
 		return this.convertResponse<P>(_response);
