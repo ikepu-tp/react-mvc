@@ -44,6 +44,10 @@ export default class Model<
 		this.url.setBaseUrl(this.base_url);
 	}
 
+	public setPath(path: string): void {
+		this.path = path;
+	}
+
 	public convertNullResponse(): void {
 		throw new Error('Unexpected response.');
 	}
@@ -65,7 +69,7 @@ export default class Model<
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
-			path: this.url.generateUrl<Param>(this.path, params),
+			path: this.path,
 			param: params,
 		});
 		return this.convertResponse<P>(_response);
@@ -76,7 +80,7 @@ export default class Model<
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
-			path: this.url.generateUrl<Param>(this.path, params),
+			path: this.path,
 			param: params,
 		});
 		return this.convertResponse<P>(_response);
@@ -88,7 +92,7 @@ export default class Model<
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.post<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
-			path: this.url.generateUrl<Param>(this.path, params),
+			path: this.path,
 			param: params,
 			body: JSON.stringify(resource),
 		});
@@ -101,7 +105,7 @@ export default class Model<
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.put<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
-			path: this.url.generateUrl<Param>(this.path, params),
+			path: this.path,
 			param: params,
 			body: JSON.stringify(resource),
 		});
@@ -114,7 +118,7 @@ export default class Model<
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.delete<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
-			path: this.url.generateUrl<Param>(this.path, params),
+			path: this.path,
 			param: params,
 			body: JSON.stringify(resource),
 		});
