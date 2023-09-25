@@ -92,7 +92,6 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 
 	protected checkNonce(): boolean {
 		if (!this.responseHeader) return false;
-		console.log(this.responseHeader, this.responseHeader.get('Request-Nonce'), this.default_headers['X-NONCE']);
 		return this.responseHeader.get('Request-Nonce') === this.default_headers['X-NONCE'];
 	}
 
