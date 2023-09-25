@@ -88,12 +88,16 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 
 	protected checkNonce(): boolean {
 		if (!this.responseHeader) return false;
+		console.log(this.responseHeader, this.responseHeader.get('Request-Nonce'), this.default_headers['X-NONCE']);
 		return this.responseHeader.get('Request-Nonce') === this.default_headers['X-NONCE'];
 	}
 
 	protected async unexpectedResponse(): Promise<void> {
 		if (this.count > 1) throw new Error('Unexpected response.');
-		if (this.sendProps) await this.send(this.sendProps);
+		if (!this.sendProps) throw new Error('Unexpected response and failed');
+		console.log(this.count);
+		this.countUp();
+		//await this.send(this.sendProps);
 	}
 
 	protected setSendProps<Param = ParamType>(props: SendProps<Param>): void {
