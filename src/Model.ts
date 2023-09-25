@@ -1,5 +1,5 @@
 import Send, { ErrorResource, SuccessOrFailedResponseResource } from './Send';
-import Url, { ParamType } from './Url';
+import Url, { ParamType, ParamType } from './Url';
 
 type PathParametersType = {
 	optional_parameters?: string;
@@ -100,8 +100,8 @@ export default class Model<
 		return this.convertResponse<P>(_response);
 	}
 
-	public async destroy<P = Resource | errorResource, Param = ParamType & PPT & RequiredParameters & DPP>(
-		resource: DeleteResource,
+	public async destroy<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & DPP)>(
+		resource: DeleteResource | undefined = undefined,
 		params: Param | undefined = undefined
 	): Promise<P> {
 		const _response: defaultResponse | null = await this.send.delete<defaultResponse>({
