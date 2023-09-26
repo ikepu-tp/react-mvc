@@ -47,7 +47,6 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
 	};
-	protected count: number = 0;
 	protected sendProps: SendProps | undefined;
 	protected responseHeader: Headers | undefined;
 	protected responseBody: any;
@@ -64,30 +63,14 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		this.default_headers = { ...{}, ...headers };
 	}
 
-	protected countUp(): void {
-		++this.count;
-	}
-
-	protected countDown(): void {
-		--this.count;
-	}
-
-	protected resetCount(): void {
-		this.count = 0;
-	}
-
 	protected beforeSend(): void {
 		this.default_headers['X-XSRF-TOKEN'] = Function.cookie('XSRF-TOKEN', '');
 		this.default_headers['X-NONCE'] = Function.createKey();
 	}
 
-	protected afterSend(): void {
-		if (this.responseBody === null) {
-			this.resetCount();
-			return;
-		}
-		if (!this.checkNonce()) this.unexpectedResponse();
-		this.resetCount();
+	protected afterSend(next: boolean = false): void {
+		if (this.responseBody === null) return;
+		if (!this.checkNonce()) this.unexpectedResponse(next);
 	}
 
 	protected checkNonce(): boolean {
@@ -95,18 +78,20 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 		return this.responseHeader.get('Request-Nonce') === this.default_headers['X-NONCE'];
 	}
 
-	protected async unexpectedResponse(): Promise<void> {
-		if (this.count > 1) throw new Error('Unexpected response.');
+	protected async unexpectedResponse(next: boolean = false): Promise<void> {
 		if (!this.sendProps) throw new Error('Unexpected response and failed');
-		await this.send(this.sendProps);
+		if (next) await this.send(this.sendProps, false);
+		throw new Error('Unexpected response.');
 	}
 
 	protected setSendProps<Param = ParamType>(props: SendProps<Param>): void {
 		this.sendProps = { ...{}, ...props } as SendProps;
 	}
 
-	public async send<R = defaultResponse, Param = ParamType>(props: SendProps<Param>): Promise<R | null> {
-		this.countUp();
+	public async send<R = defaultResponse, Param = ParamType>(
+		props: SendProps<Param>,
+		next: boolean = true
+	): Promise<R | null> {
 		this.setSendProps<Param>(props);
 
 		this.beforeSend();
@@ -127,8 +112,7 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 
 		if (_response.status === 204) {
 			this.responseBody = null;
-			this.afterSend();
-			this.resetCount();
+			this.afterSend(next);
 			return null;
 		}
 
