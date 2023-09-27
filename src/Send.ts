@@ -107,7 +107,10 @@ export default class Send<defaultResponse = SuccessOrFailedResponseResource> {
 
 		if (props.body) _option['body'] = props.body;
 
-		const _response: Response = await fetch(this.Url.generateUrl(props.path, props.param || {}), _option);
+		const _response: Response = await fetch(
+			this.Url.generateUrl(props.path, { ...{}, ...this.default_param, ...(props.param || {}) }),
+			_option
+		);
 		this.responseHeader = _response.headers;
 
 		if (_response.status === 204) {
