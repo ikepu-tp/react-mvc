@@ -1,7 +1,7 @@
 {
   "name": "@ikepu-tp/react-mvc",
   "type": "module",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "description": "React MVC is a library for supporting MVC-like implementations in JavaScript projects.",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -52,6 +52,11 @@
       "require": "./dist/cjs/Controller.js",
       "import": "./dist/esm/Controller.js",
       "types": "./dist/esm/Controller.d.ts"
+    },
+    "./View": {
+      "require": "./dist/cjs/View.js",
+      "import": "./dist/esm/View.js",
+      "types": "./dist/esm/View.d.ts"
     },
     "./Function": {
       "require": "./dist/cjs/Function.js",

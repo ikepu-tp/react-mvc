@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/View",
+  "private":true,
+  "main": "./../dist/cjs/View.js",
+  "module": "./../dist/esm/View.js",
+  "types": "./../dist/esm/View.d.ts"
+}
