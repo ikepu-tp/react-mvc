@@ -16,3 +16,10 @@ export class View<I = ViewIndexProps, S = ViewShowProps, E = ViewEditProps> {
 		return <div {...(props as ViewEditProps)} />;
 	}
 }
+
+const view = new View();
+export default {
+	Index: view.index,
+	Show: view.show,
+	Edit: view.edit,
+};
