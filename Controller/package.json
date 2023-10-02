@@ -1,0 +1,7 @@
+{
+  "name": "@ikepu-tp/react-mvc/Controller",
+  "private":true,
+  "main": "./../dist/cjs/Controller.js",
+  "module": "./../dist/esm/Controller.js",
+  "types": "./../dist/esm/Controller.d.ts"
+}
