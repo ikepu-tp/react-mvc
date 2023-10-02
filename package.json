@@ -53,6 +53,11 @@
       "import": "./dist/esm/Controller.js",
       "types": "./dist/esm/Controller.d.ts"
     },
+    "./View": {
+      "require": "./dist/cjs/View.js",
+      "import": "./dist/esm/View.js",
+      "types": "./dist/esm/View.d.ts"
+    },
     "./Function": {
       "require": "./dist/cjs/Function.js",
       "import": "./dist/esm/Function.js",
