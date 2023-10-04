@@ -1,39 +1,32 @@
 import { PropsWithChildren } from 'react';
-import View from './View';
+import { View, ViewEditProps, ViewIndexProps, ViewShowProps } from './View';
 
 export type ControllerWrapperProps = PropsWithChildren & {};
 export type ControllerIndexProps = PropsWithChildren & {};
 export type ControllerShowProps = PropsWithChildren & {};
 export type ControllerEditProps = PropsWithChildren & {};
-export class Controller<I = ControllerIndexProps, S = ControllerShowProps, E = ControllerEditProps> {
-	public view = View;
+export class Controller<I = ViewIndexProps, S = ViewShowProps, E = ViewEditProps> {
+	public view = new View<I, S, E>();
 
-	public wrapper(props: ControllerWrapperProps): JSX.Element {
-		return <>{props.children}</>;
+	public index(): JSX.Element {
+		return this.indexView<null>(null);
+	}
+	public indexView<T = I>(props: T): JSX.Element {
+		return this.view.index<T>(props);
 	}
 
-	public index(props: ControllerIndexProps & I): JSX.Element {
-		return (
-			<this.wrapper {...props}>
-				<this.view.Index></this.view.Index>
-			</this.wrapper>
-		);
+	public show(): JSX.Element {
+		return this.showView<null>(null);
+	}
+	public showView<T = S>(props: T): JSX.Element {
+		return this.view.show<T>(props);
 	}
 
-	public show(props: ControllerShowProps & S): JSX.Element {
-		return (
-			<this.wrapper {...props}>
-				<this.view.Show></this.view.Show>
-			</this.wrapper>
-		);
+	public edit(): JSX.Element {
+		return this.editView<null>(null);
 	}
-
-	public edit(props: ControllerEditProps & E): JSX.Element {
-		return (
-			<this.wrapper {...props}>
-				<this.view.Edit></this.view.Edit>
-			</this.wrapper>
-		);
+	public editView<T = E>(props: T): JSX.Element {
+		return this.view.edit<T>(props);
 	}
 }
 const controller = new Controller();

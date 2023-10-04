@@ -1,18 +1,23 @@
 import { PropsWithChildren } from 'react';
 
+export type ViewWrapperProps = PropsWithChildren & {};
 export type ViewIndexProps = PropsWithChildren & {};
 export type ViewShowProps = PropsWithChildren & {};
 export type ViewEditProps = PropsWithChildren & {};
 export class View<I = ViewIndexProps, S = ViewShowProps, E = ViewEditProps> {
-	public index(props: I): JSX.Element {
+	public wrapper(props: ViewWrapperProps): JSX.Element {
+		return <>{props.children}</>;
+	}
+
+	public index<T = I>(props: T): JSX.Element {
 		return <div {...(props as ViewIndexProps)} />;
 	}
 
-	public show(props: S): JSX.Element {
+	public show<T = S>(props: T): JSX.Element {
 		return <div {...(props as ViewShowProps)} />;
 	}
 
-	public edit(props: E): JSX.Element {
+	public edit<T = E>(props: T): JSX.Element {
 		return <div {...(props as ViewEditProps)} />;
 	}
 }
