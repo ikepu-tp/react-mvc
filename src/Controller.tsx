@@ -5,14 +5,14 @@ export type ControllerWrapperProps = PropsWithChildren & {};
 export type ControllerIndexProps = PropsWithChildren & {};
 export type ControllerShowProps = PropsWithChildren & {};
 export type ControllerEditProps = PropsWithChildren & {};
-export class Controller {
+export class Controller<I = ControllerIndexProps, S = ControllerShowProps, E = ControllerEditProps> {
 	public view = View;
 
 	public wrapper(props: ControllerWrapperProps): JSX.Element {
 		return <>{props.children}</>;
 	}
 
-	public index(props: ControllerIndexProps): JSX.Element {
+	public index(props: ControllerIndexProps & I): JSX.Element {
 		return (
 			<this.wrapper {...props}>
 				<this.view.Index></this.view.Index>
@@ -20,7 +20,7 @@ export class Controller {
 		);
 	}
 
-	public show(props: ControllerShowProps): JSX.Element {
+	public show(props: ControllerShowProps & S): JSX.Element {
 		return (
 			<this.wrapper {...props}>
 				<this.view.Show></this.view.Show>
@@ -28,7 +28,7 @@ export class Controller {
 		);
 	}
 
-	public edit(props: ControllerEditProps): JSX.Element {
+	public edit(props: ControllerEditProps & E): JSX.Element {
 		return (
 			<this.wrapper {...props}>
 				<this.view.Edit></this.view.Edit>
