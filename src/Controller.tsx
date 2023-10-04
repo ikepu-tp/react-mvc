@@ -9,24 +9,24 @@ export class Controller<I = ViewIndexProps, S = ViewShowProps, E = ViewEditProps
 	public view = new View<I, S, E>();
 
 	public index(): JSX.Element {
-		return this.indexView<null>(null);
+		return this.indexView({} as I);
 	}
-	public indexView<T = I>(props: T): JSX.Element {
-		return this.view.index<T>(props);
+	public indexView(props: I): JSX.Element {
+		return this.view.index(props);
 	}
 
 	public show(): JSX.Element {
-		return this.showView<null>(null);
+		return this.showView({} as S);
 	}
-	public showView<T = S>(props: T): JSX.Element {
-		return this.view.show<T>(props);
+	public showView(props: S): JSX.Element {
+		return this.view.show(props);
 	}
 
 	public edit(): JSX.Element {
-		return this.editView<null>(null);
+		return this.editView({} as E);
 	}
-	public editView<T = E>(props: T): JSX.Element {
-		return this.view.edit<T>(props);
+	public editView(props: E): JSX.Element {
+		return this.view.edit(props);
 	}
 }
 const controller = new Controller();

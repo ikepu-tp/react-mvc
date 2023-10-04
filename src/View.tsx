@@ -16,15 +16,15 @@ export class View<I = ViewIndexProps, S = ViewShowProps, E = ViewEditProps> {
 		return this.wrapper({ children: children, ...(props || {}) });
 	}
 
-	public index<T = I>(props: T): JSX.Element {
+	public index(props: I): JSX.Element {
 		return this.callWrapper(<div {...(props as ViewIndexProps)} />);
 	}
 
-	public show<T = S>(props: T): JSX.Element {
+	public show(props: S): JSX.Element {
 		return this.callWrapper(<div {...(props as ViewShowProps)} />);
 	}
 
-	public edit<T = E>(props: T): JSX.Element {
+	public edit(props: E): JSX.Element {
 		return this.callWrapper(<div {...(props as ViewEditProps)} />);
 	}
 }
