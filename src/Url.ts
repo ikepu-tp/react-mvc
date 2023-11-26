@@ -14,7 +14,7 @@ export default class Url {
 		let param: ParamType = { ...{}, ...(params || {}) };
 
 		//converting required parameters in path
-		const url_params: string[] | null = path.match(/{[a-zA-Z]+}/gi);
+		const url_params: string[] | null = path.match(/{[a-zA-Z_]+}/gi);
 		if (url_params !== null)
 			url_params.forEach((paramName: string) => {
 				let paramKey: string = paramName.replace(/{|}/gi, '');
@@ -24,7 +24,7 @@ export default class Url {
 			});
 
 		//converting optional parameters in path
-		const url_params_opt: string[] | null = path.match(/{[a-zA-Z]+[?]}/gi);
+		const url_params_opt: string[] | null = path.match(/{[a-zA-Z_]+[?]}/gi);
 		if (url_params_opt !== null)
 			url_params_opt.forEach((paramName: string) => {
 				let paramKey: string = paramName.replace(/[{|}|?]/gi, '');

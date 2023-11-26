@@ -30,8 +30,8 @@ export default class Model<
 	DeleteResource = any,
 	errorResource = ErrorResource,
 > {
-	protected url: Url = new Url();
-	protected send: Send = new Send<defaultResponse>();
+	protected url: Url | null = null;
+	protected send: Send | null = null;
 	protected base_url: string = '/api';
 	protected path: string = '/path/{required_parameters}/{optional_paramters?}';
 
@@ -39,9 +39,11 @@ export default class Model<
 		default_param: ParamType | undefined = undefined,
 		default_headers: { [s: string]: string } | undefined = undefined
 	) {
+		if (this.url === null) this.url = new Url();
+		this.url.setBaseUrl(this.base_url);
+		if (this.send === null) this.send = new Send<defaultResponse>(this.url);
 		if (default_param) this.send.setDefaultParam(default_param);
 		if (default_headers) this.send.setDefaultHeaders(default_headers);
-		this.url.setBaseUrl(this.base_url);
 	}
 
 	public setPath(path: string): void {
@@ -67,6 +69,7 @@ export default class Model<
 	public async index<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & IPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
+		if (this.send === null) throw new Error('Sned is null');
 		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
@@ -78,6 +81,7 @@ export default class Model<
 	public async show<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & SPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
+		if (this.send === null) throw new Error('Sned is null');
 		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
@@ -90,6 +94,7 @@ export default class Model<
 		resource: StoreResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
+		if (this.send === null) throw new Error('Sned is null');
 		const _response: defaultResponse | null = await this.send.post<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
@@ -103,6 +108,7 @@ export default class Model<
 		resource: UpdateResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
+		if (this.send === null) throw new Error('Sned is null');
 		const _response: defaultResponse | null = await this.send.put<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
@@ -116,6 +122,7 @@ export default class Model<
 		resource: DeleteResource | undefined = undefined,
 		params: Param | undefined = undefined
 	): Promise<P> {
+		if (this.send === null) throw new Error('Sned is null');
 		const _response: defaultResponse | null = await this.send.delete<defaultResponse, Param>({
 			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
