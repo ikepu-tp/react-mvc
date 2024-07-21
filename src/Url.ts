@@ -18,7 +18,7 @@ export default class Url {
 		if (url_params !== null)
 			url_params.forEach((paramName: string) => {
 				let paramKey: string = paramName.replace(/{|}/gi, '');
-				if (!param[paramKey]) throw new Error('Invalid parameter');
+				if (!param[paramKey]) throw new Error(`Invalid parameter. Cannot find "${paramKey}". Sent ${JSON.stringify(param)}`);
 				path = path.replace(paramName, `${param[paramKey]}`);
 				delete param[paramKey];
 			});
