@@ -78,7 +78,11 @@ export default class Model<
 	 * @param {beforeRequestMethod} method
 	 * @memberof Model
 	 */
-	public beforeRequest(method: beforeRequestMethod): void {}
+	public beforeRequest(method: beforeRequestMethod): void {
+		switch (method) {
+			default:
+		}
+	}
 
 	/**
 	 * リクエスト後処理
