@@ -75,21 +75,23 @@ export default class Model<
 	/**
 	 * リクエスト前処理
 	 *
-	 * @param {beforeRequestMethod} method
+	 * @param {beforeRequestMethod} _method
 	 * @memberof Model
 	 */
-	public beforeRequest(method: beforeRequestMethod): void {
-		switch (method) {
-			default:
-		}
-	}
+	public beforeRequest(_method: beforeRequestMethod): void {}
 
 	/**
 	 * リクエスト後処理
 	 *
+	 * @template P
+	 * @param {(defaultResponse | P | null)} _response
+	 * @param {beforeRequestMethod} _method
 	 * @memberof Model
 	 */
-	public afterRequest<P = Resource | errorResource>(_response: defaultResponse | P | null): void {}
+	public afterRequest<P = Resource | errorResource>(
+		_response: defaultResponse | P | null,
+		_method: beforeRequestMethod
+	): void {}
 
 	public async index<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & IPP)>(
 		params: Param | undefined = undefined
@@ -104,7 +106,7 @@ export default class Model<
 		});
 
 		const res = this.convertResponse<P>(_response);
-		this.afterRequest<P>(res);
+		this.afterRequest<P>(res, 'index');
 
 		return res;
 	}
@@ -122,7 +124,7 @@ export default class Model<
 		});
 
 		const res = this.convertResponse<P>(_response);
-		this.afterRequest<P>(res);
+		this.afterRequest<P>(res, 'show');
 
 		return res;
 	}
@@ -142,7 +144,7 @@ export default class Model<
 		});
 
 		const res = this.convertResponse<P>(_response);
-		this.afterRequest<P>(res);
+		this.afterRequest<P>(res, 'store');
 
 		return res;
 	}
@@ -162,7 +164,7 @@ export default class Model<
 		});
 
 		const res = this.convertResponse<P>(_response);
-		this.afterRequest<P>(res);
+		this.afterRequest<P>(res, 'update');
 
 		return res;
 	}
@@ -182,7 +184,7 @@ export default class Model<
 		});
 
 		const res = this.convertResponse<P>(_response);
-		this.afterRequest<P>(res);
+		this.afterRequest<P>(res, 'destroy');
 
 		return res;
 	}
