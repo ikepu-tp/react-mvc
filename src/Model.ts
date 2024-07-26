@@ -7,6 +7,7 @@ type PathParametersType = {
 type RequiredParametersType = {
 	required_paramters: string;
 };
+type beforeRequestMethod = 'index' | 'show' | 'store' | 'update' | 'destroy';
 export type IndexParamProps = ParamType & {
 	page?: number;
 	per?: number;
@@ -74,9 +75,10 @@ export default class Model<
 	/**
 	 * リクエスト前処理
 	 *
+	 * @param {beforeRequestMethod} method
 	 * @memberof Model
 	 */
-	public beforeRequest(): void {}
+	public beforeRequest(method: beforeRequestMethod): void {}
 
 	/**
 	 * リクエスト後処理
@@ -88,7 +90,7 @@ export default class Model<
 	public async index<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & IPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
-		this.beforeRequest();
+		this.beforeRequest('index');
 
 		if (this.send === null) throw new Error('Sned is null');
 
@@ -106,7 +108,7 @@ export default class Model<
 	public async show<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & SPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
-		this.beforeRequest();
+		this.beforeRequest('show');
 
 		if (this.send === null) throw new Error('Sned is null');
 
@@ -125,7 +127,7 @@ export default class Model<
 		resource: StoreResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
-		this.beforeRequest();
+		this.beforeRequest('store');
 
 		if (this.send === null) throw new Error('Sned is null');
 
@@ -145,7 +147,7 @@ export default class Model<
 		resource: UpdateResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
-		this.beforeRequest();
+		this.beforeRequest('update');
 
 		if (this.send === null) throw new Error('Sned is null');
 
@@ -165,7 +167,7 @@ export default class Model<
 		resource: DeleteResource | undefined = undefined,
 		params: Param | undefined = undefined
 	): Promise<P> {
-		this.beforeRequest();
+		this.beforeRequest('destroy');
 
 		if (this.send === null) throw new Error('Sned is null');
 
