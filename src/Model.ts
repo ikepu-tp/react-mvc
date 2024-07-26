@@ -35,6 +35,11 @@ export default class Model<
 	protected base_url: string = '/api';
 	protected path: string = '/path/{required_parameters}/{optional_paramters?}';
 
+	/**
+	 *
+	 * @param default_param パラメータ初期値
+	 * @param default_headers リクエストヘッダ初期値
+	 */
 	constructor(
 		default_param: ParamType | undefined = undefined,
 		default_headers: { [s: string]: string } | undefined = undefined
@@ -66,69 +71,113 @@ export default class Model<
 		throw new Error('Not found response.');
 	}
 
+	/**
+	 * リクエスト前処理
+	 *
+	 * @memberof Model
+	 */
+	public beforeRequest(): void {}
+
+	/**
+	 * リクエスト後処理
+	 *
+	 * @memberof Model
+	 */
+	public afterRequest<P = Resource | errorResource>(_response: defaultResponse | P | null): void {}
+
 	public async index<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & IPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
+		this.beforeRequest();
+
 		if (this.send === null) throw new Error('Sned is null');
+
 		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
-			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
 			param: params,
 		});
-		return this.convertResponse<P>(_response);
+
+		const res = this.convertResponse<P>(_response);
+		this.afterRequest<P>(res);
+
+		return res;
 	}
 
 	public async show<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & SPP)>(
 		params: Param | undefined = undefined
 	): Promise<P> {
+		this.beforeRequest();
+
 		if (this.send === null) throw new Error('Sned is null');
+
 		const _response: defaultResponse | null = await this.send.get<defaultResponse, Param>({
-			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
 			param: params,
 		});
-		return this.convertResponse<P>(_response);
+
+		const res = this.convertResponse<P>(_response);
+		this.afterRequest<P>(res);
+
+		return res;
 	}
 
 	public async store<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & StPP)>(
 		resource: StoreResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
+		this.beforeRequest();
+
 		if (this.send === null) throw new Error('Sned is null');
+
 		const _response: defaultResponse | null = await this.send.post<defaultResponse, Param>({
-			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
 			param: params,
 			body: JSON.stringify(resource),
 		});
-		return this.convertResponse<P>(_response);
+
+		const res = this.convertResponse<P>(_response);
+		this.afterRequest<P>(res);
+
+		return res;
 	}
 
 	public async update<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & UPP)>(
 		resource: UpdateResource,
 		params: Param | undefined = undefined
 	): Promise<P> {
+		this.beforeRequest();
+
 		if (this.send === null) throw new Error('Sned is null');
+
 		const _response: defaultResponse | null = await this.send.put<defaultResponse, Param>({
-			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
 			param: params,
 			body: JSON.stringify(resource),
 		});
-		return this.convertResponse<P>(_response);
+
+		const res = this.convertResponse<P>(_response);
+		this.afterRequest<P>(res);
+
+		return res;
 	}
 
 	public async destroy<P = Resource | errorResource, Param = ParamType | (ParamType & PPT & RequiredParameters & DPP)>(
 		resource: DeleteResource | undefined = undefined,
 		params: Param | undefined = undefined
 	): Promise<P> {
+		this.beforeRequest();
+
 		if (this.send === null) throw new Error('Sned is null');
+
 		const _response: defaultResponse | null = await this.send.delete<defaultResponse, Param>({
-			//path: this.url.generateUrl<Param>(this.path, params),
 			path: this.path,
 			param: params,
 			body: JSON.stringify(resource),
 		});
-		return this.convertResponse<P>(_response);
+
+		const res = this.convertResponse<P>(_response);
+		this.afterRequest<P>(res);
+
+		return res;
 	}
 }
